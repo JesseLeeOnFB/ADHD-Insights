@@ -2,117 +2,108 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ADHD Insights</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADHD Insights</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: linear-gradient(to bottom, #f0f8ff, #dbe9f4);
-      color: #222;
+      background-color: #fdf6e3;
       margin: 0;
-      padding: 0;
+      padding: 20px;
+      transition: background-color 0.3s; /* UI tweak for update feedback */
     }
-    header {
+
+    h1 {
+      color: #2c3e50;
       text-align: center;
-      padding: 20px;
-      background-color: #4a90e2;
-      color: #fff;
     }
-    .container {
-      max-width: 600px;
-      margin: auto;
-      padding: 20px;
+
+    .section {
+      margin-bottom: 25px;
     }
-    h2 { margin-top: 20px; }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    textarea {
+      width: 100%;
+      height: 60px;
+      margin-bottom: 10px;
+      padding: 5px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+    }
+
     button {
-      cursor: pointer;
-      margin: 5px;
       padding: 10px 15px;
+      font-size: 16px;
       border-radius: 5px;
       border: none;
-      background-color: #4a90e2;
-      color: #fff;
-      font-size: 1em;
+      cursor: pointer;
+      margin-right: 5px;
     }
-    button:hover { background-color: #357ABD; }
-    .selected { background-color: #FFA500 !important; }
-    input[type="text"], textarea {
-      width: 100%;
-      padding: 8px;
-      margin: 5px 0 10px 0;
-      border-radius: 5px;
-      border: 1px solid #ccc;
+
+    .energy-button {
+      padding: 8px 12px;
+      margin: 3px;
+      border: 2px solid #3498db;
+      background-color: #ecf0f1;
     }
-    .section {
-      margin-bottom: 30px;
-      background: rgba(255,255,255,0.85);
-      padding: 15px;
-      border-radius: 10px;
+
+    .energy-button.selected {
+      background-color: #3498db;
+      color: white;
     }
-    .donation-buttons a {
-      display: inline-block;
-      margin: 5px;
-      padding: 10px;
-      background-color: #4CAF50;
-      color: #fff;
-      border-radius: 5px;
-      text-decoration: none;
+
+    #clear-forms {
+      background-color: #e74c3c;
+      color: white;
     }
-    .donation-buttons a:hover { background-color: #3e8e41; }
   </style>
 </head>
 <body>
-  <header>
-    <h1>ADHD Insights</h1>
-    <p>Your personal focus & task organizer</p>
-  </header>
+  <h1>ADHD Insights</h1>
 
-  <div class="container">
-
-    <div class="section">
-      <h2>Energy Level</h2>
-      <div id="energy-container">
-        <button class="energy-btn" data-value="1">1</button>
-        <button class="energy-btn" data-value="2">2</button>
-        <button class="energy-btn" data-value="3">3</button>
-        <button class="energy-btn" data-value="4">4</button>
-        <button class="energy-btn" data-value="5">5</button>
-        <button class="energy-btn" data-value="6">6</button>
-        <button class="energy-btn" data-value="7">7</button>
-        <button class="energy-btn" data-value="8">8</button>
-        <button class="energy-btn" data-value="9">9</button>
-        <button class="energy-btn" data-value="10">10</button>
-      </div>
-      <p>Current Energy Level: <span id="energy-display">0</span></p>
+  <div class="section">
+    <label>Energy Level:</label>
+    <div id="energy-buttons">
+      <button class="energy-button" data-value="1">1</button>
+      <button class="energy-button" data-value="2">2</button>
+      <button class="energy-button" data-value="3">3</button>
+      <button class="energy-button" data-value="4">4</button>
+      <button class="energy-button" data-value="5">5</button>
+      <span id="energy-display">0</span>
     </div>
-
-    <div class="section">
-      <h2>Thought Organizer</h2>
-      <textarea id="thoughts" rows="5" placeholder="Write down your thoughts…"></textarea>
-      <button id="save-thoughts">Save Thoughts</button>
-    </div>
-
-    <div class="section">
-      <h2>Chores & Errands</h2>
-      <textarea id="chores" rows="5" placeholder="Enter your chores or errands…"></textarea>
-      <button id="save-chores">Save Chores</button>
-    </div>
-
-    <div class="section">
-      <h2>Optional Features</h2>
-      <label><input type="checkbox" id="timer"> Focus Timer</label><br>
-      <label><input type="checkbox" id="breaks"> Random Brain Breaks</label><br>
-      <label><input type="checkbox" id="dopamine"> Dopamine Reminders</label><br>
-    </div>
-
-    <div class="section donation-buttons">
-      <h2>Support ADHD Insights</h2>
-      <a href="https://square.link/u/ucq75j9I?src=sheet" target="_blank">Donate via Square</a>
-      <a href="https://cash.app/$Jlw4337" target="_blank">Donate via Cash App</a>
-    </div>
-
   </div>
 
-  <script src="script.js"></script>
+  <div class="section">
+    <label>Thoughts / Notes:</label>
+    <textarea id="thoughts" placeholder="Write your thoughts here..."></textarea>
+  </div>
+
+  <div class="section">
+    <label>Chores / Errands:</label>
+    <textarea id="chores" placeholder="Enter tasks 1-10"></textarea>
+  </div>
+
+  <div class="section">
+    <label>Optional Features:</label>
+    <input type="checkbox" id="timerCheckbox"> Focus Timer<br>
+    <input type="checkbox" id="breaksCheckbox"> Reminders for Breaks<br>
+    <input type="checkbox" id="dopamineCheckbox"> Dopamine Boost Tracker<br>
+  </div>
+
+  <div class="section">
+    <button id="clear-forms">Clear All Forms</button>
+    <p>Enjoying ADHD Insights? Consider donating!<br>
+      CashApp: $Jlw4337 <br>
+      Square: <a href="https://square.link/u/ucq75j9I?src=sheet" target="_blank">Donate via Square</a>
+    </p>
+  </div>
+
+  <script type="module" src="script.js"></script>
 </body>
 </html>
