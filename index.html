@@ -1,184 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gentle Day</title>
-
-  <style>
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: linear-gradient(180deg, #0f172a, #020617);
-      color: #e5e7eb;
-      padding: 16px;
-    }
-
-    h1 {
-      font-size: 1.6rem;
-      margin-bottom: 4px;
-    }
-
-    .sub {
-      color: #9ca3af;
-      margin-bottom: 16px;
-    }
-
-    textarea {
-      width: 100%;
-      min-height: 140px;
-      background: #020617;
-      border: 1px solid #1e293b;
-      color: #e5e7eb;
-      border-radius: 12px;
-      padding: 12px;
-      font-size: 1rem;
-      resize: vertical;
-    }
-
-    .section {
-      margin-top: 24px;
-    }
-
-    .task {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      margin-bottom: 8px;
-      background: #020617;
-      border-radius: 10px;
-      padding: 8px;
-    }
-
-    .task input[type="text"] {
-      flex: 1;
-      background: transparent;
-      border: none;
-      color: #e5e7eb;
-      font-size: 0.95rem;
-    }
-
-    .task input[type="range"] {
-      width: 80px;
-    }
-
-    .progress {
-      height: 10px;
-      background: #020617;
-      border-radius: 6px;
-      overflow: hidden;
-      margin-top: 8px;
-    }
-
-    .progress-bar {
-      height: 100%;
-      background: linear-gradient(90deg, #38bdf8, #818cf8);
-      width: 0%;
-      transition: width 0.3s ease;
-    }
-
-    .support {
-      margin-top: 40px;
-      padding-top: 16px;
-      border-top: 1px solid #1e293b;
-      text-align: center;
-      font-size: 0.9rem;
-      color: #9ca3af;
-    }
-
-    .support a {
-      display: inline-block;
-      margin: 6px;
-      padding: 8px 12px;
-      border-radius: 10px;
-      background: #020617;
-      color: #e5e7eb;
-      text-decoration: none;
-      border: 1px solid #1e293b;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADHD Insights</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #e0f7fa, #ffffff);
+    margin: 0;
+    padding: 0;
+    color: #333;
+  }
+  header {
+    background: #26c6da;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-size: 1.5rem;
+  }
+  .container {
+    padding: 20px;
+  }
+  #taskInput {
+    width: 70%;
+    padding: 8px;
+    font-size: 1rem;
+  }
+  #addTaskBtn {
+    padding: 8px 15px;
+    font-size: 1rem;
+    margin-left: 5px;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  li {
+    background: #b2ebf2;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: opacity 0.5s;
+  }
+  .task-actions button {
+    margin-left: 5px;
+    cursor: pointer;
+  }
+  .faded {
+    opacity: 0.5;
+  }
+  #energyMeter button {
+    margin-right: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  #parkingLot {
+    background: #e0f2f1;
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: 6px;
+  }
+  #parkingLot h3 {
+    margin-top: 0;
+  }
+  .donation-btns a {
+    margin-right: 10px;
+    text-decoration: none;
+    background: #26a69a;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+  }
+  #doneToday {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #ff7043;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  #overlay {
+    position: fixed;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    color:white;
+    font-size:1.5rem;
+    z-index: 1000;
+    text-align: center;
+    padding: 20px;
+  }
+</style>
 </head>
-
 <body>
 
-  <h1>Today, but gentler.</h1>
-  <div class="sub">No pressure. Just get it out.</div>
+<header>ADHD Insights</header>
+<div class="container">
+  <input type="text" id="taskInput" placeholder="Add a task...">
+  <button id="addTaskBtn">Add Task</button>
 
-  <!-- Brain Dump -->
-  <textarea id="dump" placeholder="Dump everything in your head. No order. No fixing."></textarea>
-
-  <!-- Tasks -->
-  <div class="section">
-    <h2>Today’s focus</h2>
-    <div id="tasks"></div>
-    <button onclick="addTask()">+ add task</button>
+  <div id="energyMeter">
+    Energy: 
+    <button data-energy="low">Low</button>
+    <button data-energy="okay">Okay</button>
+    <button data-energy="good">Good</button>
   </div>
 
-  <!-- Progress -->
-  <div class="section">
-    <div id="progressText">Completed today: 0</div>
-    <div class="progress">
-      <div class="progress-bar" id="progressBar"></div>
-    </div>
+  <ul id="taskList"></ul>
+
+  <div id="parkingLot">
+    <h3>Thought Parking Lot</h3>
+    <ul id="parkedThoughts"></ul>
+    <input type="text" id="parkInput" placeholder="Park a thought">
+    <button id="parkBtn">Park</button>
   </div>
 
-  <!-- Support -->
-  <div class="support">
-    <div>If this helped your brain today and you feel like supporting it, you can. If not, that’s okay too.</div>
+  <div class="donation-btns" style="margin-top:20px;">
+    Donate: 
     <a href="https://cash.app/$Jlw4337" target="_blank">Cash App</a>
-    <a href="https://square.link/u/ucq75j9I?src=sheet" target="_blank">Donate via Square</a>
+    <a href="https://www.square.link/u/ucq75j9I?src=sheet" target="_blank">Square</a>
   </div>
+</div>
 
-  <script>
-    const dump = document.getElementById("dump");
-    dump.value = localStorage.getItem("brainDump") || "";
-    dump.oninput = () => localStorage.setItem("brainDump", dump.value);
+<button id="doneToday">I Did Enough Today</button>
+<div id="overlay">Rest is also productive! Come back tomorrow or continue tomorrow's list.</div>
 
-    const tasksDiv = document.getElementById("tasks");
-    let tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
-
-    function addTask() {
-      tasks.push({ text: "", energy: 5, done: false });
-      save();
-      render();
-    }
-
-    function save() {
-      localStorage.setItem("tasks", JSON.stringify(tasks));
-    }
-
-    function render() {
-      tasksDiv.innerHTML = "";
-      let completed = 0;
-
-      tasks.forEach((t, i) => {
-        if (t.done) completed++;
-
-        const el = document.createElement("div");
-        el.className = "task";
-
-        el.innerHTML = `
-          <input type="checkbox" ${t.done ? "checked" : ""} />
-          <input type="text" placeholder="task…" value="${t.text}" />
-          <input type="range" min="1" max="10" value="${t.energy}" />
-        `;
-
-        const [check, text, range] = el.querySelectorAll("input");
-
-        check.onchange = () => { t.done = check.checked; save(); render(); };
-        text.oninput = () => { t.text = text.value; save(); };
-        range.oninput = () => { t.energy = range.value; };
-
-        tasksDiv.appendChild(el);
-      });
-
-      document.getElementById("progressText").innerText = `Completed today: ${completed}`;
-      document.getElementById("progressBar").style.width =
-        tasks.length ? (completed / tasks.length) * 100 + "%" : "0%";
-    }
-
-    render();
-  </script>
-
+<script src="script.js"></script>
 </body>
 </html>
