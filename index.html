@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>ADHD Insights</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -35,12 +34,8 @@
       color: #fff;
       font-size: 1em;
     }
-    button:hover {
-      background-color: #357ABD;
-    }
-    #energy-container button.selected {
-      background-color: #FFA500;
-    }
+    button:hover { background-color: #357ABD; }
+    .selected { background-color: #FFA500 !important; }
     input[type="text"], textarea {
       width: 100%;
       padding: 8px;
@@ -63,9 +58,7 @@
       border-radius: 5px;
       text-decoration: none;
     }
-    .donation-buttons a:hover {
-      background-color: #3e8e41;
-    }
+    .donation-buttons a:hover { background-color: #3e8e41; }
   </style>
 </head>
 <body>
@@ -76,7 +69,6 @@
 
   <div class="container">
 
-    <!-- Energy Level Section -->
     <div class="section">
       <h2>Energy Level</h2>
       <div id="energy-container">
@@ -94,30 +86,33 @@
       <p>Current Energy Level: <span id="energy-display">0</span></p>
     </div>
 
-    <!-- Thought Organizer -->
     <div class="section">
       <h2>Thought Organizer</h2>
       <textarea id="thoughts" rows="5" placeholder="Write down your thoughts…"></textarea>
       <button id="save-thoughts">Save Thoughts</button>
     </div>
 
-    <!-- Reminders / Chores -->
     <div class="section">
       <h2>Chores & Errands</h2>
       <textarea id="chores" rows="5" placeholder="Enter your chores or errands…"></textarea>
       <button id="save-chores">Save Chores</button>
     </div>
 
-    <!-- Optional Features -->
     <div class="section">
       <h2>Optional Features</h2>
-      <p>Use checkboxes to mark if you want focus timers, random brain breaks, or dopamine boosting reminders.</p>
       <label><input type="checkbox" id="timer"> Focus Timer</label><br>
       <label><input type="checkbox" id="breaks"> Random Brain Breaks</label><br>
       <label><input type="checkbox" id="dopamine"> Dopamine Reminders</label><br>
     </div>
 
-    <!-- Donations -->
     <div class="section donation-buttons">
       <h2>Support ADHD Insights</h2>
-      <a href
+      <a href="https://square.link/u/ucq75j9I?src=sheet" target="_blank">Donate via Square</a>
+      <a href="https://cash.app/$Jlw4337" target="_blank">Donate via Cash App</a>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
