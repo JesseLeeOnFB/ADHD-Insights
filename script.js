@@ -1,122 +1,65 @@
-// --- TASK LOGIC ---
-const taskInput = document.getElementById('taskInput');
-const addTaskBtn = document.getElementById('addTaskBtn');
-const taskList = document.getElementById('taskList');
+// Energy Level Logic
+const energyButtons = document.querySelectorAll(".energy-btn");
+const energyDisplay = document.getElementById("energy-display");
 
-let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+energyButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    // Remove 'selected' from all
+    energyButtons.forEach(b => b.classList.remove("selected"));
+    button.classList.add("selected");
 
-function saveTasks() {
-  localStorage.setItem('tasks', JSON.stringify(tasks));
-}
-
-function renderTasks() {
-  taskList.innerHTML = '';
-  tasks.forEach((task, index) => {
-    const li = document.createElement('li');
-    li.textContent = task.text;
-    if(task.faded) li.classList.add('faded');
-
-    const actions = document.createElement('div');
-    actions.className = 'task-actions';
-
-    const doneBtn = document.createElement('button');
-    doneBtn.textContent = '✔';
-    doneBtn.onclick = () => {
-      task.completed = true;
-      task.faded = false;
-      task.locked = true;
-      saveTasks();
-      renderTasks();
-    }
-
-    const fadeBtn = document.createElement('button');
-    fadeBtn.textContent = 'Fade';
-    fadeBtn.onclick = () => {
-      task.faded = !task.faded;
-      saveTasks();
-      renderTasks();
-    }
-
-    const parkBtn = document.createElement('button');
-    parkBtn.textContent = 'Park';
-    parkBtn.onclick = () => {
-      addParkedThought(task.text);
-    }
-
-    actions.appendChild(doneBtn);
-    actions.appendChild(fadeBtn);
-    actions.appendChild(parkBtn);
-
-    li.appendChild(actions);
-    taskList.appendChild(li);
-  });
-}
-
-addTaskBtn.onclick = () => {
-  if(taskInput.value.trim() === '') return;
-  tasks.push({text: taskInput.value.trim(), completed:false, faded:false, locked:false});
-  taskInput.value = '';
-  saveTasks();
-  renderTasks();
-}
-
-renderTasks();
-
-// --- ENERGY METER ---
-const energyButtons = document.querySelectorAll('#energyMeter button');
-energyButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const level = btn.dataset.energy;
-    tasks.forEach(task => {
-      if(level === 'low') task.faded = true;
-      if(level === 'good') task.faded = false;
-    });
-    saveTasks();
-    renderTasks();
+    const value = button.getAttribute("data-value");
+    energyDisplay.textContent = value;
+    localStorage.setItem("energyLevel", value);
   });
 });
 
-// --- PARKING LOT ---
-const parkInput = document.getElementById('parkInput');
-const parkBtn = document.getElementById('parkBtn');
-const parkedThoughts = document.getElementById('parkedThoughts');
+// Load stored energy level
+window.addEventListener("load", () => {
+  const stored = localStorage.getItem("energyLevel");
+  if (stored) {
+    energyDisplay.textContent = stored;
+    energyButtons.forEach(b => {
+      if (b.getAttribute("data-value") === stored) b.classList.add("selected");
+    });
+  }
+});
 
-let parked = JSON.parse(localStorage.getItem('parked')) || [];
+// Thoughts Organizer
+const thoughtsTextarea = document.getElementById("thoughts");
+document.getElementById("save-thoughts").addEventListener("click", () => {
+  localStorage.setItem("thoughts", thoughtsTextarea.value);
+  alert("Thoughts saved!");
+});
+window.addEventListener("load", () => {
+  const savedThoughts = localStorage.getItem("thoughts");
+  if (savedThoughts) thoughtsTextarea.value = savedThoughts;
+});
 
-function saveParked() {
-  localStorage.setItem('parked', JSON.stringify(parked));
-}
+// Chores / Errands
+const choresTextarea = document.getElementById("chores");
+document.getElementById("save-chores").addEventListener("click", () => {
+  localStorage.setItem("chores", choresTextarea.value);
+  alert("Chores saved!");
+});
+window.addEventListener("load", () => {
+  const savedChores = localStorage.getItem("chores");
+  if (savedChores) choresTextarea.value = savedChores;
+});
 
-function renderParked() {
-  parkedThoughts.innerHTML = '';
-  parked.forEach((thought, i) => {
-    const li = document.createElement('li');
-    li.textContent = thought;
-    parkedThoughts.appendChild(li);
+// Optional Features (save preferences)
+const timerCheckbox = document.getElementById("timer");
+const breaksCheckbox = document.getElementById("breaks");
+const dopamineCheckbox = document.getElementById("dopamine");
+
+window.addEventListener("load", () => {
+  timerCheckbox.checked = localStorage.getItem("timer") === "true";
+  breaksCheckbox.checked = localStorage.getItem("breaks") === "true";
+  dopamineCheckbox.checked = localStorage.getItem("dopamine") === "true";
+});
+
+[timerCheckbox, breaksCheckbox, dopamineCheckbox].forEach(cb => {
+  cb.addEventListener("change", () => {
+    localStorage.setItem(cb.id, cb.checked);
   });
-}
-
-function addParkedThought(text){
-  parked.push(text);
-  saveParked();
-  renderParked();
-}
-
-parkBtn.onclick = () => {
-  if(parkInput.value.trim()==='') return;
-  addParkedThought(parkInput.value.trim());
-  parkInput.value = '';
-}
-
-renderParked();
-
-// --- DONE TODAY ---
-const doneTodayBtn = document.getElementById('doneToday');
-const overlay = document.getElementById('overlay');
-
-doneTodayBtn.onclick = () => {
-  overlay.style.display = 'flex';
-}
-
-// Optional: clear overlay after click
-overlay.onclick = () => overlay.style.display='none';
+});
