@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADHD Insights</title>
+<style>
+  /* ADHD-friendly theme: calming blue-green background, bright accent buttons */
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #e0f7fa; /* light teal */
+    color: #004d40; /* dark teal text */
+    padding: 20px;
+    margin: 0;
+  }
+  h1, h2 {
+    text-align: center;
+    color: #00695c;
+  }
+  .section {
+    background-color: #b2dfdb;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 10px;
+  }
+  input[type="text"], input[type="number"], textarea {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0 10px 0;
+    border-radius: 5px;
+    border: 1px solid #004d40;
+  }
+  button {
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  #add-task, #clear-forms {
+    background-color: #ff8a65; /* orange for engagement */
+    color: #fff;
+  }
+  #energy-up, #energy-down {
+    background-color: #4db6ac; /* teal accent */
+    color: #fff;
+  }
+  #donation {
+    background-color: #ffab00; /* gold accent */
+    color: #fff;
+  }
+  #tasks-list li {
+    margin-bottom: 5px;
+    padding: 5px;
+    background-color: #e0f2f1;
+    border-radius: 5px;
+  }
+</style>
+</head>
+<body>
+
+<h1>ADHD Insights</h1>
+<h2>Track Your Day, Thoughts & Tasks</h2>
+
+<div class="section">
+  <h3>Thoughts / Notes</h3>
+  <textarea id="thoughts" placeholder="Enter your thoughts here..."></textarea>
+</div>
+
+<div class="section">
+  <h3>Energy Level</h3>
+  <button id="energy-up">Increase Energy</button>
+  <button id="energy-down">Decrease Energy</button>
+  <p>Current Energy: <span id="energy-level">5</span>/10</p>
+</div>
+
+<div class="section">
+  <h3>Tasks & Chores</h3>
+  <input type="text" id="task-input" placeholder="Enter a task or errand">
+  <input type="number" id="task-priority" placeholder="Priority 1-10" min="1" max="10">
+  <button id="add-task">Add Task</button>
+  <button id="clear-forms">Clear All Forms</button>
+  <ul id="tasks-list"></ul>
+</div>
+
+<div class="section">
+  <h3>Support the App</h3>
+  <p>If this helped, consider a donation:</p>
+  <button id="donation" onclick="window.open('https://square.link/u/ucq75j9I?src=sheet','_blank')">Donate via Square</button>
+  <p>Or Cash App: $Jlw4337</p>
+</div>
+
+<script type="module" src="script.js"></script>
+
+</body>
+</html>
