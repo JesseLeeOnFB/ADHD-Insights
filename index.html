@@ -1,140 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ADHD Insights</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to bottom, #e0f7fa, #ffffff);
-    margin: 0;
-    padding: 0;
-    color: #333;
-  }
-  header {
-    background: #26c6da;
-    color: white;
-    padding: 15px;
-    text-align: center;
-    font-size: 1.5rem;
-  }
-  .container {
-    padding: 20px;
-  }
-  #taskInput {
-    width: 70%;
-    padding: 8px;
-    font-size: 1rem;
-  }
-  #addTaskBtn {
-    padding: 8px 15px;
-    font-size: 1rem;
-    margin-left: 5px;
-  }
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-  li {
-    background: #b2ebf2;
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    transition: opacity 0.5s;
-  }
-  .task-actions button {
-    margin-left: 5px;
-    cursor: pointer;
-  }
-  .faded {
-    opacity: 0.5;
-  }
-  #energyMeter button {
-    margin-right: 5px;
-    padding: 5px 10px;
-    cursor: pointer;
-  }
-  #parkingLot {
-    background: #e0f2f1;
-    padding: 10px;
-    margin-top: 20px;
-    border-radius: 6px;
-  }
-  #parkingLot h3 {
-    margin-top: 0;
-  }
-  .donation-btns a {
-    margin-right: 10px;
-    text-decoration: none;
-    background: #26a69a;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 4px;
-  }
-  #doneToday {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #ff7043;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    cursor: pointer;
-  }
-  #overlay {
-    position: fixed;
-    top:0; left:0; right:0; bottom:0;
-    background: rgba(0,0,0,0.7);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    color:white;
-    font-size:1.5rem;
-    z-index: 1000;
-    text-align: center;
-    padding: 20px;
-  }
-</style>
+  <meta charset="UTF-8">
+  <title>ADHD Insights</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #f0f8ff, #dbe9f4);
+      color: #222;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #4a90e2;
+      color: #fff;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+    }
+    h2 { margin-top: 20px; }
+    button {
+      cursor: pointer;
+      margin: 5px;
+      padding: 10px 15px;
+      border-radius: 5px;
+      border: none;
+      background-color: #4a90e2;
+      color: #fff;
+      font-size: 1em;
+    }
+    button:hover {
+      background-color: #357ABD;
+    }
+    #energy-container button.selected {
+      background-color: #FFA500;
+    }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .section {
+      margin-bottom: 30px;
+      background: rgba(255,255,255,0.85);
+      padding: 15px;
+      border-radius: 10px;
+    }
+    .donation-buttons a {
+      display: inline-block;
+      margin: 5px;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: #fff;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+    .donation-buttons a:hover {
+      background-color: #3e8e41;
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <h1>ADHD Insights</h1>
+    <p>Your personal focus & task organizer</p>
+  </header>
 
-<header>ADHD Insights</header>
-<div class="container">
-  <input type="text" id="taskInput" placeholder="Add a task...">
-  <button id="addTaskBtn">Add Task</button>
+  <div class="container">
 
-  <div id="energyMeter">
-    Energy: 
-    <button data-energy="low">Low</button>
-    <button data-energy="okay">Okay</button>
-    <button data-energy="good">Good</button>
-  </div>
+    <!-- Energy Level Section -->
+    <div class="section">
+      <h2>Energy Level</h2>
+      <div id="energy-container">
+        <button class="energy-btn" data-value="1">1</button>
+        <button class="energy-btn" data-value="2">2</button>
+        <button class="energy-btn" data-value="3">3</button>
+        <button class="energy-btn" data-value="4">4</button>
+        <button class="energy-btn" data-value="5">5</button>
+        <button class="energy-btn" data-value="6">6</button>
+        <button class="energy-btn" data-value="7">7</button>
+        <button class="energy-btn" data-value="8">8</button>
+        <button class="energy-btn" data-value="9">9</button>
+        <button class="energy-btn" data-value="10">10</button>
+      </div>
+      <p>Current Energy Level: <span id="energy-display">0</span></p>
+    </div>
 
-  <ul id="taskList"></ul>
+    <!-- Thought Organizer -->
+    <div class="section">
+      <h2>Thought Organizer</h2>
+      <textarea id="thoughts" rows="5" placeholder="Write down your thoughts…"></textarea>
+      <button id="save-thoughts">Save Thoughts</button>
+    </div>
 
-  <div id="parkingLot">
-    <h3>Thought Parking Lot</h3>
-    <ul id="parkedThoughts"></ul>
-    <input type="text" id="parkInput" placeholder="Park a thought">
-    <button id="parkBtn">Park</button>
-  </div>
+    <!-- Reminders / Chores -->
+    <div class="section">
+      <h2>Chores & Errands</h2>
+      <textarea id="chores" rows="5" placeholder="Enter your chores or errands…"></textarea>
+      <button id="save-chores">Save Chores</button>
+    </div>
 
-  <div class="donation-btns" style="margin-top:20px;">
-    Donate: 
-    <a href="https://cash.app/$Jlw4337" target="_blank">Cash App</a>
-    <a href="https://www.square.link/u/ucq75j9I?src=sheet" target="_blank">Square</a>
-  </div>
-</div>
+    <!-- Optional Features -->
+    <div class="section">
+      <h2>Optional Features</h2>
+      <p>Use checkboxes to mark if you want focus timers, random brain breaks, or dopamine boosting reminders.</p>
+      <label><input type="checkbox" id="timer"> Focus Timer</label><br>
+      <label><input type="checkbox" id="breaks"> Random Brain Breaks</label><br>
+      <label><input type="checkbox" id="dopamine"> Dopamine Reminders</label><br>
+    </div>
 
-<button id="doneToday">I Did Enough Today</button>
-<div id="overlay">Rest is also productive! Come back tomorrow or continue tomorrow's list.</div>
-
-<script src="script.js"></script>
-</body>
-</html>
+    <!-- Donations -->
+    <div class="section donation-buttons">
+      <h2>Support ADHD Insights</h2>
+      <a href
