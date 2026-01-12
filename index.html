@@ -4,85 +4,109 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ADHD Insights</title>
-<link rel="stylesheet" href="style.css">
 <style>
-    body {
-        font-family: 'Arial', sans-serif;
-        background: linear-gradient(135deg, #ffd966, #ff6f61);
-        color: #222;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        min-height: 100vh;
-    }
-    h1 { margin-top: 20px; text-shadow: 1px 1px #fff; }
-    .container {
-        width: 90%;
-        max-width: 500px;
-        background: rgba(255,255,255,0.9);
-        border-radius: 12px;
-        padding: 20px;
-        margin: 20px auto;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-    label { font-weight: bold; margin-top: 10px; display: block; }
-    input[type="text"], input[type="number"], textarea {
-        width: 100%;
-        padding: 8px;
-        margin-top: 5px;
-        margin-bottom: 10px;
-        border-radius: 6px;
-        border: 1px solid #aaa;
-    }
-    button {
-        background-color: #ff6f61;
-        color: #fff;
-        border: none;
-        padding: 10px 18px;
-        margin: 5px;
-        border-radius: 6px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-    button:hover {
-        background-color: #e05b50;
-    }
-    .task-list { margin-top: 15px; }
-    .task { background: #ffd966; margin: 5px 0; padding: 8px; border-radius: 5px; }
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff; /* calming analytic ADHD color */
+    color: #1f1f1f;
+    margin: 0;
+    padding: 20px;
+  }
+  h1 {
+    text-align: center;
+    color: #0077cc;
+  }
+  .task-container {
+    margin-top: 20px;
+  }
+  .task {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    border: 2px solid #0077cc;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+  .task.removing {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  .task-info {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+  }
+  .task-buttons {
+    display: flex;
+    gap: 5px;
+  }
+  button {
+    background-color: #0077cc;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #005fa3;
+  }
+  input {
+    width: 60%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  input:focus {
+    outline: 2px solid #0077cc;
+  }
+  .slider {
+    width: 100%;
+  }
+  .energy-levels {
+    margin-top: 20px;
+    text-align: center;
+  }
+  .energy-btn {
+    margin: 0 5px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+  }
+  .donation {
+    margin-top: 20px;
+    text-align: center;
+  }
 </style>
 </head>
 <body>
 
 <h1>ADHD Insights</h1>
-<div class="container">
-    <label for="thoughts">Thoughts / Notes:</label>
-    <textarea id="thoughts" placeholder="Write down your thoughts..."></textarea>
 
-    <label for="task">Add Task (1-10 importance):</label>
-    <input type="text" id="task" placeholder="Task description">
-    <input type="number" id="importance" placeholder="Importance (1-10)" min="1" max="10">
-
-    <button id="addTaskBtn">Add Task</button>
-    <button id="clearTasksBtn">Clear All</button>
-
-    <h3>Tasks:</h3>
-    <div class="task-list" id="taskList"></div>
-
-    <h3>Energy Levels:</h3>
-    <button class="energy-btn" data-level="High">High</button>
-    <button class="energy-btn" data-level="Medium">Medium</button>
-    <button class="energy-btn" data-level="Low">Low</button>
-    <p id="energyDisplay">Current Energy: N/A</p>
-
-    <h3>Support ADHD Insights:</h3>
-    <p>If this app helps you, consider donating:</p>
-    <p>Cash App: $Jlw4337</p>
-    <p>Square: <a href="https://square.link/u/ucq75j9I?src=sheet" target="_blank">Donate Here</a></p>
+<div>
+  <input type="text" id="newTask" placeholder="Add a task or thought">
+  <button id="addTaskBtn">Add</button>
+  <button id="clearAllBtn">Clear All</button>
 </div>
 
-<script src="script.js"></script>
+<div class="energy-levels">
+  <span>Energy Level:</span>
+  <button class="energy-btn" data-level="Low">Low</button>
+  <button class="energy-btn" data-level="Medium">Medium</button>
+  <button class="energy-btn" data-level="High">High</button>
+</div>
+
+<div class="task-container" id="tasksContainer"></div>
+
+<div class="donation">
+  <p>If this helps, consider donating 💛</p>
+  <p>Cash App: $Jlw4337 | Square: https://square.link/u/ucq75j9I?src=sheet</p>
+</div>
+
+<script type="module" src="script.js"></script>
 </body>
 </html>
