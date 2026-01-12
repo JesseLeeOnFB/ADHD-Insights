@@ -1,54 +1,37 @@
-// ADHD Insights JS
-let energyLevel = 5;
-const energyDisplay = document.getElementById("energy-level");
-const tasksList = document.getElementById("tasks-list");
+// Task Management
+const addTaskBtn = document.getElementById('addTaskBtn');
+const clearTasksBtn = document.getElementById('clearTasksBtn');
+const taskList = document.getElementById('taskList');
 
-// Load saved data if exists
-if(localStorage.getItem("energyLevel")){
-  energyLevel = parseInt(localStorage.getItem("energyLevel"));
-  energyDisplay.textContent = energyLevel;
-}
-if(localStorage.getItem("tasks")){
-  tasksList.innerHTML = localStorage.getItem("tasks");
-}
+addTaskBtn.addEventListener('click', () => {
+    const taskInput = document.getElementById('task');
+    const importanceInput = document.getElementById('importance');
+    const taskValue = taskInput.value.trim();
+    const importanceValue = parseInt(importanceInput.value);
 
-// Energy buttons
-document.getElementById("energy-up").addEventListener("click", () => {
-  if(energyLevel < 10) energyLevel++;
-  energyDisplay.textContent = energyLevel;
-  localStorage.setItem("energyLevel", energyLevel);
+    if (taskValue && importanceValue >= 1 && importanceValue <= 10) {
+        const taskDiv = document.createElement('div');
+        taskDiv.className = 'task';
+        taskDiv.textContent = `(${importanceValue}) ${taskValue}`;
+        taskList.appendChild(taskDiv);
+        taskInput.value = '';
+        importanceInput.value = '';
+    } else {
+        alert('Please enter a valid task and importance (1-10).');
+    }
 });
 
-document.getElementById("energy-down").addEventListener("click", () => {
-  if(energyLevel > 0) energyLevel--;
-  energyDisplay.textContent = energyLevel;
-  localStorage.setItem("energyLevel", energyLevel);
+clearTasksBtn.addEventListener('click', () => {
+    taskList.innerHTML = '';
 });
 
-// Add task
-document.getElementById("add-task").addEventListener("click", () => {
-  const taskText = document.getElementById("task-input").value;
-  const taskPriority = document.getElementById("task-priority").value;
-  if(taskText && taskPriority){
-    const li = document.createElement("li");
-    li.textContent = `${taskText} (Priority: ${taskPriority})`;
-    tasksList.appendChild(li);
-    document.getElementById("task-input").value = "";
-    document.getElementById("task-priority").value = "";
-    localStorage.setItem("tasks", tasksList.innerHTML);
-  }
-});
+// Energy Level Buttons
+const energyBtns = document.querySelectorAll('.energy-btn');
+const energyDisplay = document.getElementById('energyDisplay');
 
-// Clear all forms
-document.getElementById("clear-forms").addEventListener("click", () => {
-  document.getElementById("thoughts").value = "";
-  document.getElementById("task-input").value = "";
-  document.getElementById("task-priority").value = "";
-  tasksList.innerHTML = "";
-  energyLevel = 5;
-  energyDisplay.textContent = energyLevel;
-  localStorage.clear();
-  // subtle UI change to indicate reset
-  document.body.style.backgroundColor = "#b2dfdb";
-  setTimeout(() => document.body.style.backgroundColor = "#e0f7fa", 200);
+energyBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        energyDisplay.textContent = `Current Energy: ${btn.dataset.level}`;
+        energyDisplay.style.color = btn.dataset.level === 'High' ? 'green' : btn.dataset.level === 'Medium' ? 'orange' : 'red';
+    });
 });
