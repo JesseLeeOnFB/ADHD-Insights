@@ -1,58 +1,81 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Energy Level
-  const energyButtons = document.querySelectorAll(".energy-btn");
+  // Energy level
+  const energyButtons = document.querySelectorAll(".energy-button");
   const energyDisplay = document.getElementById("energy-display");
 
   energyButtons.forEach(button => {
     button.addEventListener("click", () => {
       energyButtons.forEach(b => b.classList.remove("selected"));
       button.classList.add("selected");
-
-      const value = button.getAttribute("data-value");
+      const value = button.dataset.value;
       energyDisplay.textContent = value;
       localStorage.setItem("energyLevel", value);
     });
   });
 
-  // Load stored energy
-  const storedEnergy = localStorage.getItem("energyLevel");
-  if (storedEnergy) {
-    energyDisplay.textContent = storedEnergy;
+  // Load energy on page load
+  const savedEnergy = localStorage.getItem("energyLevel");
+  if (savedEnergy) {
     energyButtons.forEach(b => {
-      if (b.getAttribute("data-value") === storedEnergy) b.classList.add("selected");
+      if (b.dataset.value === savedEnergy) {
+        b.classList.add("selected");
+        energyDisplay.textContent = savedEnergy;
+      }
     });
   }
 
   // Thoughts
   const thoughtsTextarea = document.getElementById("thoughts");
-  document.getElementById("save-thoughts").addEventListener("click", () => {
+  thoughtsTextarea.value = localStorage.getItem("thoughts") || "";
+  thoughtsTextarea.addEventListener("input", () => {
     localStorage.setItem("thoughts", thoughtsTextarea.value);
-    alert("Thoughts saved!");
   });
-  const savedThoughts = localStorage.getItem("thoughts");
-  if (savedThoughts) thoughtsTextarea.value = savedThoughts;
 
   // Chores
   const choresTextarea = document.getElementById("chores");
-  document.getElementById("save-chores").addEventListener("click", () => {
+  choresTextarea.value = localStorage.getItem("chores") || "";
+  choresTextarea.addEventListener("input", () => {
     localStorage.setItem("chores", choresTextarea.value);
-    alert("Chores saved!");
   });
-  const savedChores = localStorage.getItem("chores");
-  if (savedChores) choresTextarea.value = savedChores;
 
-  // Optional Features
-  const timerCheckbox = document.getElementById("timer");
-  const breaksCheckbox = document.getElementById("breaks");
-  const dopamineCheckbox = document.getElementById("dopamine");
-
-  timerCheckbox.checked = localStorage.getItem("timer") === "true";
-  breaksCheckbox.checked = localStorage.getItem("breaks") === "true";
-  dopamineCheckbox.checked = localStorage.getItem("dopamine") === "true";
+  // Optional features
+  const timerCheckbox = document.getElementById("timerCheckbox");
+  const breaksCheckbox = document.getElementById("breaksCheckbox");
+  const dopamineCheckbox = document.getElementById("dopamineCheckbox");
 
   [timerCheckbox, breaksCheckbox, dopamineCheckbox].forEach(cb => {
+    cb.checked = localStorage.getItem(cb.id) === "true";
     cb.addEventListener("change", () => {
       localStorage.setItem(cb.id, cb.checked);
     });
+  });
+
+  // Clear Forms Button with confirmation
+  const clearButton = document.getElementById("clear-forms");
+  clearButton.addEventListener("click", () => {
+    if (confirm("Are you sure you want to clear all forms?")) {
+      // Clear energy
+      energyButtons.forEach(b => b.classList.remove("selected"));
+      energyDisplay.textContent = "0";
+      localStorage.removeItem("energyLevel");
+
+      // Clear thoughts
+      thoughtsTextarea.value = "";
+      localStorage.removeItem("thoughts");
+
+      // Clear chores
+      choresTextarea.value = "";
+      localStorage.removeItem("chores");
+
+      // Clear optional features
+      [timerCheckbox, breaksCheckbox, dopamineCheckbox].forEach(cb => {
+        cb.checked = false;
+        localStorage.removeItem(cb.id);
+      });
+
+      // Flash background for feedback
+      document.body.style.backgroundColor = "#ffe6e6";
+      setTimeout(() => document.body.style.backgroundColor = "#fdf6e3", 300);
+    }
   });
 });
